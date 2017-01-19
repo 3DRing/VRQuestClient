@@ -1,0 +1,1 @@
+Android client application for VR Quest in Innopolis.
