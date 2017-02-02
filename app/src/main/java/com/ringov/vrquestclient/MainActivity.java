@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+
 import com.ringov.vrquestclient.vr_camera.VRCameraStreamActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static String URL = "http://192.168.0.101:8090";
+    private String url = "http://192.168.0.102:8090";
     private Button btn;
+    private EditText et;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        et = (EditText) findViewById(R.id.et);
         btn = (Button) findViewById(R.id.btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                url = "http://" + et.getText().toString();
+
                 Intent intent = new Intent(MainActivity.this, VRCameraStreamActivity.class);
-                intent.putExtra("url", URL); // TODO remove hardcoded string
+                intent.putExtra("url", url); // TODO remove hardcoded string
                 startActivity(intent);
             }
         });

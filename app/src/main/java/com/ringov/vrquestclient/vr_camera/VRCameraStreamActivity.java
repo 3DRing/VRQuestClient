@@ -1,6 +1,9 @@
 package com.ringov.vrquestclient.vr_camera;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceView;
@@ -34,10 +37,11 @@ public class VRCameraStreamActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String url = intent.getStringExtra("url"); // TODO remove hardcoded text
-        if(url != null) {
+        if (url != null) {
+
             VRCameraStreamAsyncTask task = new VRCameraStreamAsyncTask(left);
             task.execute(url);
-        }else{
+        } else {
             Toast.makeText(this, "Stream doesn't exist", Toast.LENGTH_LONG).show();
         }
     }
@@ -46,4 +50,13 @@ public class VRCameraStreamActivity extends AppCompatActivity {
         super.onPause();
         left.stopPlayback();
     }
+
+    // TODO move to separate place
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }
